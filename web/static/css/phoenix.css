@@ -25,13 +25,11 @@ body, form, ul, table {
   margin-top: 0;
 }
 .logo {
-  width: 200px;
-  height: 27px;
   background-size: 100%;
   display: inline-block;
   margin-top: 0.5em;
   margin-bottom: 1em;
-  background-image: url("/images/phoenix.png");
+  background-color: #000000;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
