@@ -1,5 +1,6 @@
 defmodule Rumbl.User do
   use Rumbl.Web, :model
+  alias Comeonin.Bcrypt, as: Encryptor
 
   schema "users" do
     field :name, :string
@@ -14,5 +15,22 @@ defmodule Rumbl.User do
     model
     |> cast(params, ~w(name username), [])
     |> validate_length(:username, min: 1, max: 20)
+  end
+
+  def registration_changeset(model, params) do
+    model
+    |> changeset(params)
+    |> cast(params, ~w(password), [])
+    |> validate_length(:password, min: 6, max: 100)
+    |> put_pass_hash()
+  end
+
+  defp put_pass_hash(changeset) do
+    case changeset do
+      %Ecto.Changeset{valid?: true, changes: %{password: pass}} ->
+          put_change(changeset, :password_hash, Encryptor.hashpwsalt(pass))
+      _ ->
+        changeset
+    end
   end
 end
